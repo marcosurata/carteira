@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/carteira
+    username: carteira-user
+    password: gordimSafado
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+
+logging:
+  level:
+    root: WARN
+    org.springframework.security: DEBUG
