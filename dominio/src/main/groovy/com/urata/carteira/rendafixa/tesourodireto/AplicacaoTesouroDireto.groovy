@@ -1,29 +1,21 @@
 package com.urata.carteira.rendafixa.tesourodireto
 
+import com.urata.carteira.Carteira
 import com.urata.carteira.CorretoraEnum
 import groovy.transform.ToString
 import groovy.transform.builder.Builder
 import groovy.transform.builder.InitializerStrategy
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.SequenceGenerator
-import javax.persistence.Version
+import javax.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-@SequenceGenerator(name = "ID_GENERATOR_TD", sequenceName = "SEQ_APLICACAO_TESOURO_DIRETO", allocationSize = 1)
 @ToString
-@Builder(builderStrategy=InitializerStrategy, builderMethodName = "builder")
+@Builder(builderStrategy = InitializerStrategy, builderMethodName = "builder")
 class AplicacaoTesouroDireto {
 
     @Id
-    @GeneratedValue(generator = "ID_GENERATOR_TD", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COD")
     Long id
 
@@ -42,9 +34,13 @@ class AplicacaoTesouroDireto {
     BigDecimal valorCorretagem
 
     @Enumerated(EnumType.STRING)
-    TipoTituloTesouroDiretoEnum tipoTituloTesouroDiretoEnum
+    TipoTituloTesouroDiretoEnum tipoTituloTesouroDireto
 
     @Enumerated(EnumType.STRING)
-    CorretoraEnum corretoraEnum
+    CorretoraEnum corretora
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="COD_CARTEIRA")
+    Carteira carteira
 
 }

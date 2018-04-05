@@ -1,5 +1,6 @@
 package com.urata.carteira.rendafixa.fundo
 
+import com.urata.carteira.Carteira
 import com.urata.carteira.CorretoraEnum
 import com.urata.carteira.rendafixa.DadosEntidadeFinanceira
 import groovy.transform.ToString
@@ -10,13 +11,12 @@ import javax.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-@SequenceGenerator(name = "ID_GENERATOR_RF", sequenceName = "SEQ_APLICACAO_RENDA_FIXA", allocationSize = 1)
 @ToString
-@Builder(builderStrategy=InitializerStrategy, builderMethodName = "builder")
+@Builder(builderStrategy = InitializerStrategy, builderMethodName = "builder")
 class AplicacaoRendaFixa {
 
     @Id
-    @GeneratedValue(generator = "ID_GENERATOR_RF", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COD")
     Long id
 
@@ -24,10 +24,13 @@ class AplicacaoRendaFixa {
     @Column(name = "NUM_VERSAO_REGISTRO", nullable = false)
     Long versao
 
+    @Column(nullable = false)
     LocalDateTime dataAplicacao
 
+    @Column(nullable = false)
     String nomeFundo
 
+    @Column(nullable = false)
     BigDecimal valorAplicado
 
     float taxaCDI
@@ -40,8 +43,13 @@ class AplicacaoRendaFixa {
     DadosEntidadeFinanceira dadosEntidadeFinanceira
 
     @Enumerated(EnumType.STRING)
-    TipoAplicacaoRendaFixaEnum tipoAplicacaoRendaFixaEnum
+    @Column(nullable = false)
+    TipoAplicacaoRendaFixaEnum tipoAplicacaoRendaFixa
 
     @Enumerated(EnumType.STRING)
-    CorretoraEnum corretoraEnum
+    CorretoraEnum corretora
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="COD_CARTEIRA")
+    Carteira carteira
 }

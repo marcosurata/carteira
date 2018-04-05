@@ -1,6 +1,7 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/carteira?autoReconnect=true&useSSL=false
+    driverClassName: com.mysql.jdbc.Driver
     username: carteira-user
     password: gordimSafado
 
@@ -13,6 +14,7 @@ spring:
         use_sql_comments: true
         format_sql: true
     open-in-view: false
+ #   database-platform: org.hibernate.dialect.MySQLDialect
 
 logging:
   level:

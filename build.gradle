@@ -1,14 +1,12 @@
-buildscript {
-    ext {
-        springBootVersion = '2.0.0.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+
+plugins {
+    id 'org.springframework.boot' version '2.0.0.RELEASE'
 }
+
+springBoot {
+    mainClassName = 'com.urata.carteira.CarteiraApplication'
+}
+
 
 allprojects {
     apply plugin: 'idea'
@@ -22,6 +20,7 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
 }
 
 
@@ -38,3 +37,7 @@ subprojects {
 }
 
 
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.5.1'
+}

@@ -11,11 +11,9 @@ import javax.persistence.OneToMany
 @Embeddable
 class DadosAplicacoesRendaFixa {
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "COD_CARTEIRA", referencedColumnName = "COD", nullable = false)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "carteira")
     Set<AplicacaoTesouroDireto> aplicacoesTesouroDireto = new HashSet<>()
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "COD_CARTEIRA", referencedColumnName = "COD", nullable = false)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "carteira")
     Set<AplicacaoRendaFixa> aplicacoesRendaFixa = new HashSet<>()
 }

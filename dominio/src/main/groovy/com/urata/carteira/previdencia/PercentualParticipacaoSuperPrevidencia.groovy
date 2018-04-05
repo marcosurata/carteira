@@ -7,13 +7,12 @@ import groovy.transform.builder.InitializerStrategy
 import javax.persistence.*
 
 @Entity
-@SequenceGenerator(name = "ID_GENERATOR_PPSP", sequenceName = "SEQ_PERCENTUAL_PARTIC_SUPER_PREV", allocationSize = 1)
 @ToString
-@Builder(builderStrategy=InitializerStrategy, builderMethodName = "builder")
+@Builder(builderStrategy = InitializerStrategy, builderMethodName = "builder")
 class PercentualParticipacaoSuperPrevidencia {
 
     @Id
-    @GeneratedValue(generator = "ID_GENERATOR_PPSP", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COD")
     Long id
 

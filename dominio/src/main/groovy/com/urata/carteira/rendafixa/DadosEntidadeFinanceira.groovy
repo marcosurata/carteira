@@ -10,7 +10,7 @@ import javax.persistence.Embeddable
 @EqualsAndHashCode
 @ToString
 class DadosEntidadeFinanceira {
-    @Column(name = "NOME_ENTIDADE_FINANCEIRA")
+    @Column(name = "NOME_ENTIDADE_FINANCEIRA", nullable = false)
     String nome
 
     @Column(name = "CNPJ_ENTIDADE_FINANCEIRA")

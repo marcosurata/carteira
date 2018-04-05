@@ -1,27 +1,40 @@
 package com.urata.carteira.rendavariavel.papel
 
-import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import groovy.transform.builder.Builder
+import groovy.transform.builder.InitializerStrategy
 
-import javax.persistence.Embeddable
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
+import javax.persistence.*
 
-@Embeddable
-@EqualsAndHashCode
+@Entity
 @ToString
+@Builder(builderStrategy = InitializerStrategy, builderMethodName = "builder")
 class PapelRendaVariavel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "COD")
+    Long id;
+
+    @Version
+    @Column(name = "NUM_VERSAO_REGISTRO", nullable = false)
+    Long versao
 
     String cnpj
 
+    @Column(nullable = false)
     String ticker
 
-    @Enumerated(EnumType.STRING)
-    TipoPapelRendaVariavelEnum tipoRendaVariavelEnum
+    String descricao
 
     @Enumerated(EnumType.STRING)
-    TipoRamoInvestimentoEnum tipoRamoInvestimentoEnum
+    @Column(nullable = false)
+    TipoPapelRendaVariavelEnum tipoRendaVariavel
 
     @Enumerated(EnumType.STRING)
-    TipoBolsaEnum tipoBolsaEnum
+    TipoRamoInvestimentoEnum tipoRamoInvestimento
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    TipoBolsaEnum tipoBolsa
 }
