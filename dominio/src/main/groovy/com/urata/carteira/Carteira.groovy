@@ -2,17 +2,19 @@ package com.urata.carteira
 
 import com.urata.carteira.outros.CreditosDiversos
 import com.urata.carteira.previdencia.AplicacaoSuperPrevidencia
-import com.urata.carteira.rendafixa.DadosAplicacoesRendaFixa
-import com.urata.carteira.rendavariavel.DadosAplicacoesRendaVariavel
+
+import com.urata.carteira.rendafixa.fundo.AplicacaoRendaFixa
+import com.urata.carteira.rendafixa.tesourodireto.AplicacaoTesouroDireto
+import com.urata.carteira.rendavariavel.fundo.AplicacaoFundoRendaVariavel
+import com.urata.carteira.rendavariavel.papel.OrdemCompraPapelRendaVariavel
+import com.urata.carteira.rendavariavel.papel.PapelRendaVariavel
 import groovy.transform.ToString
-import groovy.transform.builder.Builder
-import groovy.transform.builder.InitializerStrategy
 
 import javax.persistence.*
+import java.math.RoundingMode
 
 @Entity
 @ToString
-@Builder(builderStrategy = InitializerStrategy, builderMethodName = "builder")
 class Carteira {
 
     @Id
@@ -24,12 +26,17 @@ class Carteira {
     @Column(name = "NUM_VERSAO_REGISTRO", nullable = false)
     Long versao
 
-    @Embedded
-    DadosAplicacoesRendaVariavel dadosAplicacoesRendaVariavel
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "carteira")
+    Set<OrdemCompraPapelRendaVariavel> ordensCompraPapelRendaVariavel = new HashSet<>()
 
-    @Embedded
-    DadosAplicacoesRendaFixa dadosAplicacoesRendaFixa
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "carteira")
+    Set<AplicacaoFundoRendaVariavel> aplicacoesFundoRendaVariavel = new HashSet<>()
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "carteira")
+    Set<AplicacaoTesouroDireto> aplicacoesTesouroDireto = new HashSet<>()
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "carteira")
+    Set<AplicacaoRendaFixa> aplicacoesRendaFixa = new HashSet<>()
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "carteira")
     Set<AplicacaoSuperPrevidencia> aplicacoesSuperPrevidencia = new HashSet<>()
@@ -37,5 +44,22 @@ class Carteira {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "carteira")
     Set<CreditosDiversos> creditosDiversos = new HashSet<>()
 
+
+    void adicionarOrdemCompraPapelRendaVariavel(OrdemCompraPapelRendaVariavel ordemCompraPapelRendaVariavel) {
+        ordensCompraPapelRendaVariavel.add(ordemCompraPapelRendaVariavel)
+        ordemCompraPapelRendaVariavel.setCarteira(this)
+    }
+
+    BigDecimal calcularPrecoMedio(PapelRendaVariavel papelRendaVariavel) {
+        double quantidade = 0
+        BigDecimal valorCompra = 0G
+        for (OrdemCompraPapelRendaVariavel umaOrdemCompraPapel  : ordensCompraPapelRendaVariavel) {
+            if(umaOrdemCompraPapel.getPapelRendaVariavel().getTicker().equalsIgnoreCase(papelRendaVariavel.getTicker())) {
+                quantidade += umaOrdemCompraPapel.getQuantidade()
+                valorCompra += umaOrdemCompraPapel.getValorCompra()
+            }
+        }
+        return quantidade > 0 ?  valorCompra.divide(quantidade, 2, RoundingMode.DOWN) : BigDecimal.ZERO
+    }
 
 }

@@ -11,6 +11,17 @@ import javax.persistence.*
 @Builder(builderStrategy = InitializerStrategy, builderMethodName = "builder")
 class PapelRendaVariavel {
 
+    PapelRendaVariavel() {
+        // Hibernate
+    }
+
+    PapelRendaVariavel(String ticker, TipoPapelRendaVariavelEnum tipoRendaVariavel, TipoBolsaEnum tipoBolsa) {
+        this.ticker = ticker
+        this.tipoRendaVariavel = tipoRendaVariavel
+        this.tipoBolsa = tipoBolsa
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COD")

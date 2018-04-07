@@ -14,6 +14,16 @@ import java.time.LocalDateTime
 @Builder(builderStrategy = InitializerStrategy, builderMethodName = "builder")
 class OrdemCompraPapelRendaVariavel {
 
+    OrdemCompraPapelRendaVariavel() {
+        // Hibernate
+    }
+
+    OrdemCompraPapelRendaVariavel(PapelRendaVariavel papelRendaVariavel, double quantidade, BigDecimal precoUnitario) {
+        this.papelRendaVariavel = papelRendaVariavel
+        this.quantidade = quantidade
+        this.precoUnitario = precoUnitario
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COD")
@@ -30,9 +40,9 @@ class OrdemCompraPapelRendaVariavel {
     double quantidade
 
     @Column(nullable = false)
-    BigDecimal precoUnitario
+    BigDecimal precoUnitario = 0
 
-    BigDecimal valorCorretagem
+    BigDecimal valorCorretagem = 0
 
     @OneToOne
     @JoinColumn(name = "COD_PAPEL")
@@ -46,5 +56,16 @@ class OrdemCompraPapelRendaVariavel {
     @JoinColumn(name="COD_CARTEIRA")
     Carteira carteira
 
+    BigDecimal getValorCompra() {
+        (quantidade * precoUnitario) + valorCorretagem
+    }
 
+    @Override
+    public String toString() {
+        return "OrdemCompraPapelRendaVariavel{" +
+                "quantidade=" + quantidade +
+                ", precoUnitario=" + precoUnitario +
+                ", papelRendaVariavel=" + papelRendaVariavel +
+                '}';
+    }
 }
