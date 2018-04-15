@@ -1,5 +1,6 @@
 package com.urata.carteira.rendavariavel.papel.cotacao
 
+import com.urata.carteira.aplicacao.rendavariavel.papel.cotacao.ServicoCotacaoPapelRendaVariavel
 import org.junit.Test
 
 class ServicoCotacaoPapelRendaVariavelTest {

@@ -1,4 +1,4 @@
-package com.urata.carteira
+package com.urata.carteira.comum
 
 enum CorretoraEnum {
 

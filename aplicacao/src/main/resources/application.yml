@@ -1,16 +1,21 @@
 spring:
-
   datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://localhost:3306/carteira?autoReconnect=true&useSSL=false
+    driverClassName: com.mysql.jdbc.Driver
+    username: carteira-user
+    password: gordimSafado
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     properties:
       hibernate:
         show_sql: true
         use_sql_comments: true
         format_sql: true
+    open-in-view: false
+
+logging:
+  level:
+    root: info
+    org.springframework.security: DEBUG

@@ -30,6 +30,6 @@ class CreditosDiversos {
     TipoCredito tipoCredito
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="COD_CARTEIRA")
+    @JoinColumn(name="COD_CARTEIRA", foreignKey = @ForeignKey(name="FK_CD_COD_CARTEIRA"))
     Carteira carteira
 }

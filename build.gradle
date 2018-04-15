@@ -30,7 +30,7 @@ subprojects {
     sourceCompatibility = 1.8
 
     dependencies {
-        compile('org.codehaus.groovy:groovy')
+        compile('org.codehaus.groovy:groovy-all:2.4.15')
         testCompile('org.springframework.boot:spring-boot-starter-test')
         compile('org.springframework.boot:spring-boot-devtools')
     }

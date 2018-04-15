@@ -1,4 +1,4 @@
-package com.urata.carteira.rendavariavel.papel.cotacao
+package com.urata.carteira.aplicacao.rendavariavel.papel.cotacao
 
 enum AlphaVantageJsonResponseBatchStockQuotes {
 

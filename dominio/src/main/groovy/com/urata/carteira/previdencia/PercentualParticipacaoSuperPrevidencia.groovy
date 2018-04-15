@@ -23,10 +23,10 @@ class PercentualParticipacaoSuperPrevidencia {
     float percentual
 
     @ManyToOne
-    @JoinColumn(name = "COD_APLICACAO_SUPER_PREV")
+    @JoinColumn(name = "COD_APLICACAO_SUPER_PREV", foreignKey = @ForeignKey(name="FK_PPSP_COD_ASP"))
     AplicacaoSuperPrevidencia aplicacaoSuperPrevidencia
 
     @ManyToOne
-    @JoinColumn(name = "COD_APLICACAO_PREV_PRIVADA")
+    @JoinColumn(name = "COD_APLICACAO_PREV_PRIVADA" , foreignKey = @ForeignKey(name="FK_PPSP_COD_APP"))
     AplicacaoPrevidenciaPrivada aplicacaoPrevidenciaPrivada
 }

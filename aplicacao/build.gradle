@@ -12,6 +12,13 @@ dependencies {
     runtime('mysql:mysql-connector-java')
     compile('org.flywaydb:flyway-core')
 
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
+
+    // optional dependencies for using Spock
+    testCompile "org.hamcrest:hamcrest-core:1.3" // only necessary if Hamcrest matchers are used
+    testRuntime "net.bytebuddy:byte-buddy:1.6.5"          // allows mocking of classes (in addition to interfaces)
+    testRuntime "org.objenesis:objenesis:2.5.1"
+
 
 //    testCompile('org.springframework.security:spring-security-test')
 }

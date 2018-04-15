@@ -69,6 +69,7 @@ create table aplicacao_tesouro_direto (
 create table carteira (
   cod bigint not null auto_increment,
   num_versao_registro bigint not null,
+  cod_usuario bigint,
   primary key (cod)
 ) engine=MyISAM
 ;
@@ -139,56 +140,72 @@ create table rendimento (
 ) engine=MyISAM
 ;
 
+create table usuario (
+  cod bigint not null auto_increment,
+  data_cadastro datetime,
+  login varchar(255),
+  nome varchar(255),
+  senha varchar(255),
+  num_versao_registro bigint not null,
+  primary key (cod)
+) engine=MyISAM
+;
+
 alter table aplicacao_fundo_renda_variavel
-  add constraint FKf99nvunis68da2vh1guyucbtg
+  add constraint FK_AFRV_COD_CARTEIRA
 foreign key (cod_carteira)
 references carteira (cod)
 ;
 
 alter table aplicacao_renda_fixa
-  add constraint FKcf0q87pw0as1jd7o9lwjxg573
+  add constraint FK_ARF_COD_CARTEIRA
 foreign key (cod_carteira)
 references carteira (cod)
 ;
 
 alter table aplicacao_super_previdencia
-  add constraint FKoj4fkk11y1ko4qfxag9gmpf73
+  add constraint FK_ASP_COD_CARTEIRA
 foreign key (cod_carteira)
 references carteira (cod)
 ;
 
 alter table aplicacao_tesouro_direto
-  add constraint FKnenqjts8d0caqpr4jt2abvwcv
+  add constraint FK_ATD_COD_CARTEIRA
 foreign key (cod_carteira)
 references carteira (cod)
+;
+
+alter table carteira
+  add constraint FK_CARTEIRA_USUARIO
+foreign key (cod_usuario)
+references usuario (cod)
 ;
 
 alter table creditos_diversos
-  add constraint FKowgcvee1o36psd5dgnuua0h83
+  add constraint FK_CD_COD_CARTEIRA
 foreign key (cod_carteira)
 references carteira (cod)
 ;
 
 alter table ordem_compra_papel_renda_variavel
-  add constraint FK2bdga75iglf5dh1d083ibo9rk
+  add constraint FK_OCPRV_COD_CARTEIRA
 foreign key (cod_carteira)
 references carteira (cod)
 ;
 
 alter table ordem_compra_papel_renda_variavel
-  add constraint FK7f6p8njis96ekd1s2f5j1yjpy
+  add constraint FK_OCPRV_COD_PAPEL
 foreign key (cod_papel)
 references papel_renda_variavel (cod)
 ;
 
 alter table percentual_participacao_super_previdencia
-  add constraint FK2ilx4fnmvhpewytapc1apsseg
+  add constraint FK_PPSP_COD_APP
 foreign key (cod_aplicacao_prev_privada)
 references aplicacao_previdencia_privada (cod)
 ;
 
 alter table percentual_participacao_super_previdencia
-  add constraint FK1cj3bllm90h563jfk9c4ehwjy
+  add constraint FK_PPSP_COD_ASP
 foreign key (cod_aplicacao_super_prev)
-references aplicacao_super_previdencia (cod)
-;
+references aplicacao_super_previdencia (cod);

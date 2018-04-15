@@ -1,7 +1,7 @@
 package com.urata.carteira.rendavariavel.fundo
 
 import com.urata.carteira.Carteira
-import com.urata.carteira.CorretoraEnum
+import com.urata.carteira.comum.CorretoraEnum
 import groovy.transform.ToString
 import groovy.transform.builder.Builder
 import groovy.transform.builder.InitializerStrategy
@@ -42,7 +42,7 @@ class AplicacaoFundoRendaVariavel {
     CorretoraEnum corretora
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="COD_CARTEIRA")
+    @JoinColumn(name="COD_CARTEIRA", foreignKey = @ForeignKey(name="FK_AFRV_COD_CARTEIRA"))
     Carteira carteira
 
 

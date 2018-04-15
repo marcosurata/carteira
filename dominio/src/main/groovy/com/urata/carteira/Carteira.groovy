@@ -2,12 +2,12 @@ package com.urata.carteira
 
 import com.urata.carteira.outros.CreditosDiversos
 import com.urata.carteira.previdencia.AplicacaoSuperPrevidencia
-
 import com.urata.carteira.rendafixa.fundo.AplicacaoRendaFixa
 import com.urata.carteira.rendafixa.tesourodireto.AplicacaoTesouroDireto
 import com.urata.carteira.rendavariavel.fundo.AplicacaoFundoRendaVariavel
 import com.urata.carteira.rendavariavel.papel.OrdemCompraPapelRendaVariavel
 import com.urata.carteira.rendavariavel.papel.PapelRendaVariavel
+import com.urata.usuario.Usuario
 import groovy.transform.ToString
 
 import javax.persistence.*
@@ -25,6 +25,10 @@ class Carteira {
     @Version
     @Column(name = "NUM_VERSAO_REGISTRO", nullable = false)
     Long versao
+
+    @OneToOne
+    @JoinColumn(name = "COD_USUARIO", foreignKey = @ForeignKey(name = "FK_CARTEIRA_USUARIO"))
+    Usuario usuario
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "carteira")
     Set<OrdemCompraPapelRendaVariavel> ordensCompraPapelRendaVariavel = new HashSet<>()
@@ -44,6 +48,14 @@ class Carteira {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "carteira")
     Set<CreditosDiversos> creditosDiversos = new HashSet<>()
 
+    public Carteira() {
+        // JPA
+    }
+
+    Carteira(Usuario usuario) {
+        this.usuario = usuario
+    }
+
 
     void adicionarOrdemCompraPapelRendaVariavel(OrdemCompraPapelRendaVariavel ordemCompraPapelRendaVariavel) {
         ordensCompraPapelRendaVariavel.add(ordemCompraPapelRendaVariavel)
@@ -51,15 +63,13 @@ class Carteira {
     }
 
     BigDecimal calcularPrecoMedio(PapelRendaVariavel papelRendaVariavel) {
-        double quantidade = 0
-        BigDecimal valorCompra = 0G
-        for (OrdemCompraPapelRendaVariavel umaOrdemCompraPapel  : ordensCompraPapelRendaVariavel) {
-            if(umaOrdemCompraPapel.getPapelRendaVariavel().getTicker().equalsIgnoreCase(papelRendaVariavel.getTicker())) {
-                quantidade += umaOrdemCompraPapel.getQuantidade()
-                valorCompra += umaOrdemCompraPapel.getValorCompra()
-            }
+        def papeis = ordensCompraPapelRendaVariavel.findAll {
+            it.papelRendaVariavel.ticker == papelRendaVariavel.ticker
         }
-        return quantidade > 0 ?  valorCompra.divide(quantidade, 2, RoundingMode.DOWN) : BigDecimal.ZERO
+        def quantidadeDoPapel = papeis.sum { it.quantidade }
+        quantidadeDoPapel > 0 ? (papeis.sum {
+            it.getValorCompra()
+        }).divide(quantidadeDoPapel, 2, RoundingMode.DOWN) : 0
     }
 
 }

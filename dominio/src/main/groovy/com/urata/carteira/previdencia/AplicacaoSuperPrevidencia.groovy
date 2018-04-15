@@ -30,6 +30,6 @@ class AplicacaoSuperPrevidencia {
     List<PercentualParticipacaoSuperPrevidencia> planosPrevidencia;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="COD_CARTEIRA")
+    @JoinColumn(name="COD_CARTEIRA", foreignKey = @ForeignKey(name="FK_ASP_COD_CARTEIRA"))
     Carteira carteira
 }

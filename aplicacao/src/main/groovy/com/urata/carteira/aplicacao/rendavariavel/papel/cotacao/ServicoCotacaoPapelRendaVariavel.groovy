@@ -1,4 +1,6 @@
-package com.urata.carteira.rendavariavel.papel.cotacao
+package com.urata.carteira.aplicacao.rendavariavel.papel.cotacao
+
+import org.springframework.core.io.ClassPathResource
 
 import static AlphaVantageJsonResponseBatchStockQuotes.*
 import static AlphaVantageJsonResponseTimesSeriesDailyAdjusted.*
@@ -9,7 +11,7 @@ import groovy.json.JsonSlurper
 class ServicoCotacaoPapelRendaVariavel {
 
     final String BASE_URL = 'https://www.alphavantage.co/query?'
-    final String API_KEY = 'OM1DZVB891HGF446'
+    final String API_KEY = new ClassPathResource('alpha-vantage-key.txt').file.text
 
     final String API_BUSCA_POR_ACAO = 'TIME_SERIES_DAILY_ADJUSTED'
     final String API_BUSCA_LOTE_STOCKS = 'BATCH_STOCK_QUOTES'
@@ -54,13 +56,5 @@ class ServicoCotacaoPapelRendaVariavel {
 
         String qs = (fun + sym + key).collect { k, v -> "$k=$v" }.join('&')
         qs
-    }
-
-    static void main(String[] args) {
-        def servicoCotacaoPapelRendaVariavelRest = new ServicoCotacaoPapelRendaVariavel()
-
-        println servicoCotacaoPapelRendaVariavelRest.recuperarCotacaoPapelBolsaEUA('PSB','FB')
-        println servicoCotacaoPapelRendaVariavelRest.recuperarCotacaoPapelBovespa( 'ITSA4')
-
     }
 }

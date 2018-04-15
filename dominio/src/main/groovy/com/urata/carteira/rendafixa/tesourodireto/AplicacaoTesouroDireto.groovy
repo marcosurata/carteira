@@ -1,7 +1,7 @@
 package com.urata.carteira.rendafixa.tesourodireto
 
 import com.urata.carteira.Carteira
-import com.urata.carteira.CorretoraEnum
+import com.urata.carteira.comum.CorretoraEnum
 import groovy.transform.ToString
 import groovy.transform.builder.Builder
 import groovy.transform.builder.InitializerStrategy
@@ -40,7 +40,7 @@ class AplicacaoTesouroDireto {
     CorretoraEnum corretora
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="COD_CARTEIRA")
+    @JoinColumn(name="COD_CARTEIRA", foreignKey = @ForeignKey(name="FK_ATD_COD_CARTEIRA"))
     Carteira carteira
 
 }
